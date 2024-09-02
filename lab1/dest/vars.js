@@ -1,0 +1,15 @@
+"use strict";
+let myString = "Hello, TypeScript!";
+let myNumber = 42;
+let myBoolean = true;
+let myAny = "I can be anything";
+let stringArray = ["Hello", "TypeScript", "World"];
+let numberArray = [1, 2, 3, 4, 5];
+console.log("String:", myString);
+console.log("Number:", myNumber);
+console.log("Boolean:", myBoolean);
+console.log("Any:", myAny);
+console.log("String Array:", stringArray);
+console.log("Number Array:", numberArray);
+myAny = 42;
+console.log("Any: ", myAny);
