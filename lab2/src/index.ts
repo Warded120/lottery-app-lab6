@@ -95,10 +95,10 @@ function task4(): void {
     }    
 
     const employees: Employee[] = [
-        new Developer("Alice", 30, 60000),
+        new Developer("Andriy", 30, 60000),
         new Developer("Bob", 25, 55000),
-        new Manager("Charlie", 45, 80000),
-        new Manager("Diana", 40, 75000)
+        new Manager("Tanya", 45, 80000),
+        new Manager("Oleg", 40, 75000)
     ];
     
     let totalAnnualBonus = 0;
@@ -122,11 +122,11 @@ function task5(): void {
     const course2 = new OnlineCourse("Advanced TypeScript", 12);
     const course3 = new OnlineCourse("JavaScript for Beginners", 8);
 
-    course1.registerStudent("Alice");
+    course1.registerStudent("Andriy");
     course1.registerStudent("Bob");
-    course2.registerStudent("Alice");
-    course3.registerStudent("Charlie");
-    course3.registerStudent("Dave");
+    course2.registerStudent("Andriy");
+    course3.registerStudent("Tanya");
+    course3.registerStudent("Oleg");
 
     const courseManager = new CourseManager();
 

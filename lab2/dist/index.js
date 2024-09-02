@@ -76,10 +76,10 @@ function task4() {
         return 'pay' in object;
     }
     const employees = [
-        new Developer_1.Developer("Alice", 30, 60000),
+        new Developer_1.Developer("Andriy", 30, 60000),
         new Developer_1.Developer("Bob", 25, 55000),
-        new Manager_1.Manager("Charlie", 45, 80000),
-        new Manager_1.Manager("Diana", 40, 75000)
+        new Manager_1.Manager("Tanya", 45, 80000),
+        new Manager_1.Manager("Oleg", 40, 75000)
     ];
     let totalAnnualBonus = 0;
     employees.forEach(employee => {
@@ -96,11 +96,11 @@ function task5() {
     const course1 = new OnlineCourse_1.OnlineCourse("TypeScript Basics", 10);
     const course2 = new OnlineCourse_1.OnlineCourse("Advanced TypeScript", 12);
     const course3 = new OnlineCourse_1.OnlineCourse("JavaScript for Beginners", 8);
-    course1.registerStudent("Alice");
+    course1.registerStudent("Andriy");
     course1.registerStudent("Bob");
-    course2.registerStudent("Alice");
-    course3.registerStudent("Charlie");
-    course3.registerStudent("Dave");
+    course2.registerStudent("Andriy");
+    course3.registerStudent("Tanya");
+    course3.registerStudent("Oleg");
     const courseManager = new CourseManager_1.CourseManager();
     courseManager.addCourse(course1);
     courseManager.addCourse(course2);
