@@ -1,4 +1,4 @@
-import { Animal } from "./Animal";
+import { Animal } from "./interfaces/Animal";
 
 export class Fish implements Animal {
     name: string;

@@ -18,6 +18,7 @@ const Manager_1 = require("./task4/Manager");
 // task5 imports
 const CourseManager_1 = require("./task5/CourseManager");
 const OnlineCourse_1 = require("./task5/OnlineCourse");
+//task6 imports
 const Book_1 = require("./task6/Book");
 const DVD_1 = require("./task6/DVD");
 const Library_1 = require("./task6/Library");
@@ -93,9 +94,9 @@ function task4() {
 function task5() {
     console.log("\n");
     console.log("Task 5 executed--------------------");
-    const course1 = new OnlineCourse_1.OnlineCourse("TypeScript Basics", 10);
-    const course2 = new OnlineCourse_1.OnlineCourse("Advanced TypeScript", 12);
-    const course3 = new OnlineCourse_1.OnlineCourse("JavaScript for Beginners", 8);
+    const course1 = new OnlineCourse_1.OnlineCourse("Spring boot for begiers", 10);
+    const course2 = new OnlineCourse_1.OnlineCourse("Тупеscript", 12);
+    const course3 = new OnlineCourse_1.OnlineCourse("MicroServices", 8);
     course1.registerStudent("Andriy");
     course1.registerStudent("Bob");
     course2.registerStudent("Andriy");

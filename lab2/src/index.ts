@@ -19,6 +19,7 @@ import { Payable } from "./task4/Payable";
 // task5 imports
 import { CourseManager } from "./task5/CourseManager";
 import { OnlineCourse } from "./task5/OnlineCourse";
+//task6 imports
 import { Book } from "./task6/Book";
 import { DVD } from "./task6/DVD";
 import { Library } from "./task6/Library";
@@ -118,9 +119,9 @@ function task5(): void {
     console.log("\n");
     console.log("Task 5 executed--------------------");
 
-    const course1 = new OnlineCourse("TypeScript Basics", 10);
-    const course2 = new OnlineCourse("Advanced TypeScript", 12);
-    const course3 = new OnlineCourse("JavaScript for Beginners", 8);
+    const course1 = new OnlineCourse("Spring boot for begiers", 10);
+    const course2 = new OnlineCourse("Тупеscript", 12);
+    const course3 = new OnlineCourse("MicroServices", 8);
 
     course1.registerStudent("Andriy");
     course1.registerStudent("Bob");
