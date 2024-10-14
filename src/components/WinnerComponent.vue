@@ -1,11 +1,23 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  $END$
+  <span class="badge blue">
+    {{ winner.name }}
+    <button @click="$emit('remove')" class="btn btn-sm btn-danger">
+      &times;
+    </button>
+  </span>
 </template>
 
-<style scoped>
+<script lang="ts">
+import { defineComponent } from "vue";
+import { Participant } from "@/models/Participant";
 
-</style>
+export default defineComponent({
+  name: "WinnerComponent",
+  props: {
+    winner: {
+      type: Object as () => Participant,
+      required: true,
+    },
+  },
+});
+</script>
