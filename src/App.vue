@@ -26,6 +26,7 @@ import WinnersBlock from "@/components/WinnersBlock.vue";
 import RegistrationForm from "@/components/RegistrationForm.vue";
 import ParticipantsTable from "@/components/ParticipantsTable.vue";
 import { Validator } from "@/misc/Validator";
+import MyStorage from "@/misc/MyStorage";
 
 export default defineComponent({
   name: "App",
@@ -40,38 +41,7 @@ export default defineComponent({
     });
 
     // Participants
-    const participants = ref<Participant[]>([
-      {
-        name: "John Doe",
-        dateOfBirth: "1990-01-01",
-        email: "john@example.com",
-        phoneNumber: "+1234567890",
-      },
-      {
-        name: "Jane Smith",
-        dateOfBirth: "1985-05-15",
-        email: "jane@example.com",
-        phoneNumber: "+1987654321",
-      },
-      {
-        name: "Alice Johnson",
-        dateOfBirth: "1992-03-10",
-        email: "alice@example.com",
-        phoneNumber: "+11234567890",
-      },
-      {
-        name: "Bob Brown",
-        dateOfBirth: "1988-07-22",
-        email: "bob@example.com",
-        phoneNumber: "+19987654321",
-      },
-      {
-        name: "Charlie Green",
-        dateOfBirth: "1995-10-05",
-        email: "charlie@example.com",
-        phoneNumber: "+17654321098",
-      },
-    ]);
+    const participants = ref<Participant[]>(MyStorage.getParticipants());
     const winners = ref<Participant[]>([]);
 
     // Error messages
@@ -91,7 +61,7 @@ export default defineComponent({
         participantData.dateOfBirth,
         today
       );
-      emailError.value = Validator.validateEmail(participantData.email);
+      emailError.value = Validator.validateEmail(participantData.email, false);
       phoneError.value = Validator.validatePhoneNumber(
         participantData.phoneNumber
       );
@@ -105,7 +75,8 @@ export default defineComponent({
         return;
       }
 
-      participants.value.push({ ...participantData });
+      participants.value.push(participantData);
+      MyStorage.saveParticipants(participants.value);
       // Reset the newParticipant object
       newParticipant.value = {
         name: "",

@@ -1,121 +1,198 @@
 <template>
   <div class="card">
+    <SearchBar @filter-by-name="filterParticipants" />
     <table class="table table-striped">
       <thead>
         <tr>
           <th>#</th>
-          <th>Name</th>
-          <th>Date of Birth</th>
+          <th>
+            Name
+            <button
+              @click="sortByName"
+              aria-label="Sort by Name"
+              class="sort-button"
+            >
+              <img src="@/assets/sort-alpha-down.svg" alt="AZ" />
+            </button>
+          </th>
+          <th>
+            Date of Birth
+            <button
+              @click="sortByDateOfBirth"
+              aria-label="Sort by Date of Birth"
+              class="sort-button"
+            >
+              <img src="@/assets/sort-down.svg" alt="^" />
+            </button>
+          </th>
           <th>Email</th>
           <th>Phone number</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(participant, index) in participants" :key="index">
+        <tr v-for="(participant, index) in filteredParticipants" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ participant.name }}</td>
           <td>{{ participant.dateOfBirth }}</td>
           <td>{{ participant.email }}</td>
           <td>{{ participant.phoneNumber }}</td>
+          <td>
+            <button @click="openEditModal(participant)">Edit</button>
+          </td>
+          <td>
+            <button @click="openDeleteModal(participant)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
+
+    <ModalComponent
+      v-if="isModalVisible"
+      :isVisible="isModalVisible"
+      :participant="selectedParticipant"
+      @update:participant="updateParticipant"
+      @create="createParticipant"
+      @close="closeModal"
+    />
+
+    <ModalConfirm
+      v-if="isDeleteModalVisible"
+      :isVisible="isDeleteModalVisible"
+      :participant="selectedParticipant"
+      @confirm="deleteParticipant"
+      @close="closeDeleteModal"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { Participant } from "@/models/Participant";
+import ModalComponent from "@/components/ModalComponent.vue";
+import ModalConfirm from "@/components/ModalConfirm.vue";
+import MyStorage from "@/misc/MyStorage";
+import SearchBar from "@/components/SearchBar.vue";
 
 export default defineComponent({
   name: "ParticipantsTable",
   props: {
-    participants: Array as () => Participant[],
+    participants: {
+      type: Array as () => Participant[],
+      required: true,
+      default: () => [],
+    },
+  },
+  components: {
+    ModalComponent,
+    ModalConfirm,
+    SearchBar,
+  },
+  setup(props) {
+    const isModalVisible = ref(false);
+    const isDeleteModalVisible = ref(false);
+    const selectedParticipant = ref<Participant | null>(null);
+    const localParticipants = ref<Participant[]>([...props.participants]);
+    const searchTerm = ref("");
+
+    const filteredParticipants = computed(() => {
+      return localParticipants.value.filter((participant) =>
+        participant.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+      );
+    });
+
+    const openEditModal = (participant: Participant) => {
+      selectedParticipant.value = { ...participant };
+      isModalVisible.value = true;
+    };
+
+    const closeModal = () => {
+      isModalVisible.value = false;
+      selectedParticipant.value = null;
+    };
+
+    const openDeleteModal = (participant: Participant) => {
+      selectedParticipant.value = { ...participant };
+      isDeleteModalVisible.value = true;
+    };
+
+    const closeDeleteModal = () => {
+      selectedParticipant.value = null;
+      isDeleteModalVisible.value = false;
+    };
+
+    const updateParticipant = (updatedParticipant: Participant) => {
+      const index = localParticipants.value.findIndex(
+        (p) => p.email === updatedParticipant.email
+      );
+      if (index !== -1) {
+        localParticipants.value[index] = updatedParticipant;
+        MyStorage.saveParticipants(localParticipants.value);
+      }
+    };
+
+    const createParticipant = (newParticipant: Participant) => {
+      localParticipants.value.push(newParticipant); // Add the new participant to localParticipants
+      MyStorage.saveParticipants(localParticipants.value);
+      closeModal(); // Close the modal after creation
+    };
+
+    const deleteParticipant = () => {
+      if (selectedParticipant.value) {
+        const emailToDelete = selectedParticipant.value.email;
+        localParticipants.value = localParticipants.value.filter(
+          (participant) => participant.email !== emailToDelete
+        );
+        MyStorage.saveParticipants(localParticipants.value);
+        closeDeleteModal();
+      }
+    };
+
+    const sortByName = () => {
+      localParticipants.value.sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const sortByDateOfBirth = () => {
+      localParticipants.value.sort((a, b) => {
+        return (
+          new Date(a.dateOfBirth).getTime() - new Date(b.dateOfBirth).getTime()
+        );
+      });
+    };
+
+    const filterParticipants = (search: string) => {
+      searchTerm.value = search; // Update search term based on the input
+    };
+
+    return {
+      isModalVisible,
+      isDeleteModalVisible,
+      selectedParticipant,
+      filteredParticipants,
+      openEditModal,
+      closeModal,
+      openDeleteModal,
+      closeDeleteModal,
+      updateParticipant,
+      createParticipant, // Include createParticipant in the return
+      deleteParticipant,
+      sortByName,
+      sortByDateOfBirth,
+      filterParticipants,
+    };
   },
 });
 </script>
 
 <style scoped>
-/** {
-  border: solid green 1px;
-}*/
-
-.lottery-app {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+.sort-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 5px;
 }
-
-.card {
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background-color: #f8f9fa;
-  padding: 3%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.d-flex {
-  display: flex;
-  flex-direction: column;
-}
-
-.winner-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.winner-tags .badge {
-  display: flex;
-  color: black;
-  height: 35px;
-  align-items: center;
-  gap: 5px;
-  padding: 10px;
-  font-size: 1rem;
-}
-
-.blue {
-  background-color: rgba(13, 110, 253, 0.5);
-}
-
-.winner-tags button {
-  margin-left: 2px;
-  margin-top: 1px;
-}
-
-.gray-border {
-  border: solid gray 1px;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-form div {
-  margin-bottom: 10px;
-}
-
-.text-danger {
-  color: red;
-  font-size: 0.875rem;
-}
-
-table {
-  width: 100%;
-}
-
-thead {
-  background-color: #e9ecef;
-}
-
-th,
-td {
-  padding: 8px;
-  text-align: center;
-}
-
-button {
-  margin-top: 10px;
+.sort-button i {
+  font-size: 16px; /* Adjust icon size */
 }
 </style>

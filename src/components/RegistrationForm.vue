@@ -31,13 +31,7 @@
         :errorMessage="phoneError"
         :validate="validatePhoneNumber"
       />
-      <button
-        type="submit"
-        class="btn btn-primary"
-        :disabled="hasValidationErrors"
-      >
-        Save
-      </button>
+      <ActionButton text="Save" type="submit" :disabled="hasValidationErrors" />
     </form>
   </div>
 </template>
@@ -47,11 +41,13 @@ import { defineComponent, ref, watch } from "vue";
 import { Validator } from "@/misc/Validator";
 import { Participant } from "@/models/Participant";
 import ParticipantInput from "@/components/ParticipantInput.vue"; // Adjust the path as necessary
+import ActionButton from "@/components/ActionButton.vue"; // Import the new ActionButton component
 
 export default defineComponent({
   name: "RegistrationForm",
   components: {
     ParticipantInput,
+    ActionButton,
   },
   props: {
     newParticipant: Object as () => Participant,
@@ -88,7 +84,10 @@ export default defineComponent({
     };
 
     const validateEmail = () => {
-      emailError.value = Validator.validateEmail(localParticipant.value.email);
+      emailError.value = Validator.validateEmail(
+        localParticipant.value.email,
+        false
+      );
     };
 
     const validatePhoneNumber = () => {
