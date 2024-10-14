@@ -1,38 +1,36 @@
 <template>
-  <div class="lottery-app">
-    <WinnersBlock
-      :winners="winners"
-      :participants="participants"
-      @remove-winner="removeWinner"
-      @select-winner="selectWinner"
-    />
-    <RegistrationForm
-      :newParticipant="newParticipant"
-      :nameError="nameError"
-      :dateError="dateError"
-      :emailError="emailError"
-      :phoneError="phoneError"
-      :today="today"
-      @register-participant="registerParticipant"
-    />
-    <ParticipantsTable :participants="participants" />
+  <div class="card">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Date of Birth</th>
+          <th>Email</th>
+          <th>Phone number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(participant, index) in participants" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ participant.name }}</td>
+          <td>{{ participant.dateOfBirth }}</td>
+          <td>{{ participant.email }}</td>
+          <td>{{ participant.phoneNumber }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { Participant } from "@/models/Participant";
-import WinnersBlock from "@/components/WinnersBlock.vue";
-import RegistrationForm from "@/components/RegistrationForm.vue";
-import ParticipantsTable from "@/components/ParticipantsTable.vue";
-import { Validator } from "@/misc/Validator";
 
 export default defineComponent({
-  name: "App",
-  components: { WinnersBlock, RegistrationForm, ParticipantsTable },
-  setup() {
-    // Логіка як в попередньому коді
-    // Ваш setup() залишиться без змін
+  name: "ParticipantsTable",
+  props: {
+    participants: Array as () => Participant[],
   },
 });
 </script>
