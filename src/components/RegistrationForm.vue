@@ -3,58 +3,34 @@
     <h3>REGISTER FORM</h3>
     <p>Please fill in all the fields.</p>
     <form @submit.prevent="registerParticipant" novalidate>
-      <div class="form-group">
-        <label>Name</label>
-        <input
-          v-model="localParticipant.name"
-          @input="validateName()"
-          type="text"
-          class="form-control"
-          placeholder="Enter user name"
-          :class="{ 'is-invalid': nameError }"
-          required
-        />
-        <div class="text-danger" v-if="nameError">{{ nameError }}</div>
-      </div>
-      <div class="form-group">
-        <label>Date of Birth</label>
-        <input
-          v-model="localParticipant.dateOfBirth"
-          @input="validateDateOfBirth()"
-          type="date"
-          class="form-control"
-          :max="today"
-          :class="{ 'is-invalid': dateError }"
-          required
-        />
-        <div class="text-danger" v-if="dateError">{{ dateError }}</div>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          v-model="localParticipant.email"
-          @input="validateEmail()"
-          type="email"
-          class="form-control"
-          placeholder="Enter email"
-          :class="{ 'is-invalid': emailError }"
-          required
-        />
-        <div class="text-danger" v-if="emailError">{{ emailError }}</div>
-      </div>
-      <div class="form-group">
-        <label>Phone number</label>
-        <input
-          v-model="localParticipant.phoneNumber"
-          @input="validatePhoneNumber()"
-          type="tel"
-          class="form-control"
-          placeholder="Enter phone number"
-          :class="{ 'is-invalid': phoneError }"
-          required
-        />
-        <div class="text-danger" v-if="phoneError">{{ phoneError }}</div>
-      </div>
+      <ParticipantInput
+        label="Name"
+        v-model="localParticipant.name"
+        :errorMessage="nameError"
+        :validate="validateName"
+      />
+      <ParticipantInput
+        label="Date of Birth"
+        inputType="date"
+        v-model="localParticipant.dateOfBirth"
+        :max="today"
+        :errorMessage="dateError"
+        :validate="validateDateOfBirth"
+      />
+      <ParticipantInput
+        label="Email"
+        inputType="email"
+        v-model="localParticipant.email"
+        :errorMessage="emailError"
+        :validate="validateEmail"
+      />
+      <ParticipantInput
+        label="Phone number"
+        inputType="tel"
+        v-model="localParticipant.phoneNumber"
+        :errorMessage="phoneError"
+        :validate="validatePhoneNumber"
+      />
       <button
         type="submit"
         class="btn btn-primary"
@@ -70,9 +46,13 @@
 import { defineComponent, ref, watch } from "vue";
 import { Validator } from "@/misc/Validator";
 import { Participant } from "@/models/Participant";
+import ParticipantInput from "@/components/ParticipantInput.vue"; // Adjust the path as necessary
 
 export default defineComponent({
   name: "RegistrationForm",
+  components: {
+    ParticipantInput,
+  },
   props: {
     newParticipant: Object as () => Participant,
     today: String,
@@ -129,7 +109,14 @@ export default defineComponent({
         !emailError.value &&
         !phoneError.value
       ) {
-        emit("register-participant");
+        emit("register-participant", localParticipant.value); // Emit localParticipant
+
+        localParticipant.value = {
+          name: "",
+          dateOfBirth: "",
+          email: "",
+          phoneNumber: "",
+        };
       }
     };
 

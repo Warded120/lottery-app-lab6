@@ -31,8 +31,119 @@ export default defineComponent({
   name: "App",
   components: { WinnersBlock, RegistrationForm, ParticipantsTable },
   setup() {
-    // Логіка як в попередньому коді
-    // Ваш setup() залишиться без змін
+    const today = new Date().toISOString().split("T")[0]; // Current date
+    const newParticipant = ref<Participant>({
+      name: "",
+      dateOfBirth: "",
+      email: "",
+      phoneNumber: "",
+    });
+
+    // Participants
+    const participants = ref<Participant[]>([
+      {
+        name: "John Doe",
+        dateOfBirth: "1990-01-01",
+        email: "john@example.com",
+        phoneNumber: "+1234567890",
+      },
+      {
+        name: "Jane Smith",
+        dateOfBirth: "1985-05-15",
+        email: "jane@example.com",
+        phoneNumber: "+1987654321",
+      },
+      {
+        name: "Alice Johnson",
+        dateOfBirth: "1992-03-10",
+        email: "alice@example.com",
+        phoneNumber: "+11234567890",
+      },
+      {
+        name: "Bob Brown",
+        dateOfBirth: "1988-07-22",
+        email: "bob@example.com",
+        phoneNumber: "+19987654321",
+      },
+      {
+        name: "Charlie Green",
+        dateOfBirth: "1995-10-05",
+        email: "charlie@example.com",
+        phoneNumber: "+17654321098",
+      },
+    ]);
+    const winners = ref<Participant[]>([]);
+
+    // Error messages
+    const nameError = ref("");
+    const dateError = ref("");
+    const emailError = ref("");
+    const phoneError = ref("");
+
+    const registerParticipant = (participantData: Participant) => {
+      if (!participantData) {
+        console.error("participantData is undefined");
+        return;
+      }
+
+      nameError.value = Validator.validateName(participantData.name);
+      dateError.value = Validator.validateDateOfBirth(
+        participantData.dateOfBirth,
+        today
+      );
+      emailError.value = Validator.validateEmail(participantData.email);
+      phoneError.value = Validator.validatePhoneNumber(
+        participantData.phoneNumber
+      );
+
+      if (
+        nameError.value ||
+        dateError.value ||
+        emailError.value ||
+        phoneError.value
+      ) {
+        return;
+      }
+
+      participants.value.push({ ...participantData });
+      // Reset the newParticipant object
+      newParticipant.value = {
+        name: "",
+        dateOfBirth: "",
+        email: "",
+        phoneNumber: "",
+      };
+    };
+
+    const selectWinner = () => {
+      if (participants.value.length > 0 && winners.value.length < 3) {
+        const randomIndex = Math.floor(
+          Math.random() * participants.value.length
+        );
+        const winner = participants.value[randomIndex];
+        winners.value.push(winner);
+        participants.value.splice(randomIndex, 1);
+      }
+    };
+
+    const removeWinner = (index: number) => {
+      participants.value.push(winners.value[index]);
+      winners.value.splice(index, 1);
+    };
+
+    return {
+      newParticipant,
+      participants,
+      winners,
+      nameError,
+      dateError,
+      emailError,
+      phoneError,
+      today,
+      registerParticipant,
+      selectWinner,
+      removeWinner,
+    };
   },
 });
 </script>
