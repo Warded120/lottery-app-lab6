@@ -1,3 +1,5 @@
+<!-- use slots to pass data in modal -->
+<!-- one modal for all purposes -->
 <template>
   <div v-if="isVisible" class="modal-overlay">
     <div class="modal-content">
