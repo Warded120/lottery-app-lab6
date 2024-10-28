@@ -5,8 +5,8 @@
 <template>
   <div class="wrapper">
     <h1>About page</h1>
-    <div class="horizontalLine"></div>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus blanditiis commodi cum dolorem dolores et nostrum obcaecati provident rem temporibus! Alias aut, delectus dolore eveniet in molestias non obcaecati recusandae!</p>
+    <hr class="line">
+    <p>My name is Ivan</p>
   </div>
 </template>
 
@@ -20,9 +20,13 @@
   margin-left: 20px;
 }
 
-.horizontalLine {
-  width: 75%;
+.line {
   height: 1px;
-  border: 1px solid black
+  width: 90%;
+  border: 2px solid black;
+}
+
+p {
+  font-size: 18px;
 }
 </style>

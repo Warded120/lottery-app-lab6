@@ -14,19 +14,19 @@ const logout = () => {
 
 <template>
   <ul class="navigation">
-    <li class="navigation__item">
+    <li>
       <RouterLink class="navigationLink" to="/">Home</RouterLink>
     </li>
 
-    <li class="navigationItem">
+    <li>
       <RouterLink class="navigationLink" to="/about">About</RouterLink>
     </li>
 
-    <li class="navigation__item">
+    <li>
       <RouterLink class="navigationLink" to="/lottery">Lottery</RouterLink>
     </li>
 
-    <li class="navigation__item">
+    <li>
       <RouterLink v-if="!isUserAuthenticated" class="navigationLink" to="/login">Login</RouterLink>
       <button @click="logout" v-if="isUserAuthenticated" class="btn btn-secondary">Logout</button>
     </li>
@@ -53,6 +53,7 @@ const logout = () => {
 
 .navigationLink.link-active {
   color: white;
+  background-color: #083578;
 }
 
 </style>

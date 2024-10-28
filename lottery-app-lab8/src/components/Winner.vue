@@ -13,12 +13,15 @@ const emit = defineEmits({
 </script>
 
 <template>
-      <span class="rounded text-white bg-primary p-1 ms-1 me-1">
+      <span class="rounded text-white bg-primary p-1 ms-1 me-1 p-1">
         {{ winner.name }}
-        <i role="button" @click="$emit('onDelete', winner)" class="ps-2 fa-solid fa-xs text-black">x</i>
+        <i role="button" @click="$emit('onDelete', winner)" class="ps-2 fa-solid fa-xs text-black"><img src="../assets/delete.svg" alt=""></i>
       </span>
 </template>
 
 <style scoped>
-
+  img {
+    width: 25px;
+    height: 25px;
+  }
 </style>

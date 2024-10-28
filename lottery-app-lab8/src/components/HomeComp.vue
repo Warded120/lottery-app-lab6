@@ -4,9 +4,9 @@
 
 <template>
   <div class="wrapper">
-    <h1>Home</h1>
-    <div class="horizontalLine"></div>
-    <p>Welcome to the lab 8</p>
+    <h1>Home Page</h1>
+    <hr class="line">
+    <p>Play the lottery without wasting your money!</p>
   </div>
 </template>
 
@@ -20,9 +20,13 @@
   margin-left: 20px;
 }
 
-.horizontalLine {
-  width: 75%;
+.line {
   height: 1px;
-  border: 1px solid black
+  width: 90%;
+  border: 2px solid black;
+}
+
+p {
+  font-size: 18px;
 }
 </style>

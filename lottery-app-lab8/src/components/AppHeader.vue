@@ -5,8 +5,8 @@ import AppNavigation from "@/components/AppNavigation.vue";
 
 <template>
   <div class="header">
-    <div class="header__title">
-      <h1>Lottery</h1>
+    <div>
+      <h1 class="m-2">Lottery</h1>
     </div>
     <div class="headerNavigation">
       <AppNavigation></AppNavigation>
@@ -18,9 +18,8 @@ import AppNavigation from "@/components/AppNavigation.vue";
 .header {
   display: flex;
   justify-content: space-between;
-  margin-left: 10px;
-  margin-right: 10px;
   border-bottom: 1px solid black;
+  background-color: #0d6efd;
 }
 
 .headerNavigation {
