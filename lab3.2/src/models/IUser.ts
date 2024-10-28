@@ -1,14 +1,14 @@
 import { Identifiable } from './identifiable';
-import { Representable } from './representable';
+import { ToString } from './toString';
 import { IBook } from './IBook';
 
-export interface IUser extends Identifiable<number>, Representable {
-  borrowedBooks: IBook[];
-  username: string;
-  email: string;
+export interface IUser extends Identifiable<number>, ToString {
+    borrowedBooks: IBook[];
+    username: string;
+    email: string;
 
-  getUsername(): string;
-  getEmail(): string;
-  borrowBook(book: IBook): void;
-  takeBookBack(bookId: number): void;
+    getUsername(): string;
+    getEmail(): string;
+    borrowBook(book: IBook): void;
+    takeBookBack(bookId: number): void;
 }

@@ -2,47 +2,47 @@ import { Identifiable } from '../models/identifiable';
 
 import { IBook } from '../models/IBook';
 import { Paginatable } from './paginatable';
-import { Representable } from '../models/representable';
+import { ToString } from '../models/toString';
 
-export class Library<TItem extends Identifiable<TId> & Representable, TId>
-  implements Paginatable<Representable>
+export class Library<TItem extends Identifiable<TId> & ToString, TId>
+    implements Paginatable<ToString>
 {
-  private items: Array<TItem>;
-  constructor() {
-    this.items = [];
-  }
-
-  add(item: TItem): void {
-    this.items.push(item);
-  }
-
-  remove(item: TItem): void {
-    this.items = this.items.filter((x) => x !== item);
-  }
-
-  removeById(id: TId): void {
-    const itemToDelete = this.items.filter((x) => x.id === id)[0];
-    if (!itemToDelete) {
-      throw new Error('Item was not found');
+    private items: Array<TItem>;
+    constructor() {
+        this.items = [];
     }
-    this.items = this.items.filter((x) => x.id !== id);
-  }
 
-  find(id: TId): TItem | undefined {
-    return this.items.filter((x) => x.id === id)[0];
-  }
+    add(item: TItem): void {
+        this.items.push(item);
+    }
 
-  getAll(): Array<TItem> {
-    return this.items;
-  }
+    remove(item: TItem): void {
+        this.items = this.items.filter((x) => x !== item);
+    }
 
-  getPaginated(pageNumber: number, pageSize: number): Representable[] {
-    const start = (pageNumber - 1) * pageSize;
-    const end = start + pageSize;
-    return this.items.slice(start, end);
-  }
+    removeById(id: TId): void {
+        const itemToDelete = this.items.filter((x) => x.id === id)[0];
+        if (!itemToDelete) {
+            throw new Error('Item was not found');
+        }
+        this.items = this.items.filter((x) => x.id !== id);
+    }
 
-  getTotalCount(): number {
-    return this.items.length;
-  }
+    find(id: TId): TItem | undefined {
+        return this.items.filter((x) => x.id === id)[0];
+    }
+
+    getAll(): Array<TItem> {
+        return this.items;
+    }
+
+    getPaginated(pageNumber: number, pageSize: number): ToString[] {
+        const start = (pageNumber - 1) * pageSize;
+        const end = start + pageSize;
+        return this.items.slice(start, end);
+    }
+
+    getTotalCount(): number {
+        return this.items.length;
+    }
 }
